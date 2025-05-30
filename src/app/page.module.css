@@ -1,0 +1,372 @@
+/* Global Styles */
+
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 100vh;
+  }
+  
+  .backgroundContainer {
+    width: 100%;
+    height: 100vh;
+    background-image: url('/images/mppbg-maybe.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .backgroundImage {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit:fill;
+    z-index: -1;
+  }
+  
+  .title {
+    margin-top: 20px;
+    font-size: 2.5rem;
+    color: #000;
+    text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.8);
+    font-weight: bold;
+    padding: 5px 15px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+  
+  .bookEmoji {
+    display: inline-block;
+  }
+  
+  .searchContainer {
+    margin-top: auto;
+    margin-bottom: auto;
+    background-color: rgba(173, 216, 230, 0.7);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 300px;
+  }
+  
+  .searchInput {
+    width: 100%;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+  }
+  
+  .searchButton {
+    background-color: lightblue;
+    color: black;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 20px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s;
+  }
+  
+  .searchButton:hover {
+    background-color: #90caf9;
+  }
+  
+  .actionButtons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 15px;
+  }
+  
+  .actionButton {
+    background-color: lightblue;
+    color: black;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 20px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s;
+    flex: 1;
+    margin: 0 5px;
+  }
+  
+  .actionButton:hover {
+    background-color: #90caf9;
+  }
+
+
+/* Modal Styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+  }
+  
+  .modalContent {
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 80%;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  
+  .modalContent h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+  }
+  
+  /* Form Styles */
+  .formGroup {
+    margin-bottom: 15px;
+  }
+  
+  .formGroup label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+  }
+  
+  .formInput {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .modalActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .addButton {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .cancelButton {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  /* Event List Styles */
+  .eventsList {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .eventCard {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .eventCard h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .eventCard p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+  }
+
+  .inputError {
+    border: 1px solid #f44336;
+    background-color: #ffebee;
+  }
+  
+  .errorMessage {
+    color: #f44336;
+    font-size: 0.8rem;
+    margin-top: 5px;
+  }
+
+  .deleteInstructions {
+    margin-bottom: 15px;
+    color: #555;
+  }
+  
+  .deleteButton {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .deleteButton:hover {
+    background-color: #d32f2f;
+  }
+  
+  .successMessage {
+    color: #4CAF50;
+    text-align: center;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #e8f5e9;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+  
+  .noEvents {
+    text-align: center;
+    color: #666;
+    padding: 20px;
+  }
+
+  .sortButton {
+    background-color: #889cff;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .sortButton:hover {
+    background-color: #0056b3;
+  }
+  
+  .highestCapacity {
+    border-left: 4px solid #00AA00;
+  }
+
+  .lowestCapacity {
+    border-left: 4px solid #AA0000;
+  }
+
+  /* Add these to your page.module.css file */
+
+.dashboardModal {
+  max-width: 1500px;
+  width: 90%;
+  max-height: 100vh;
+  overflow-y: auto;
+}
+
+.chartsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.chartBox {
+  background-color: white;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.paginatedList {
+  margin-top: 20px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 5px;
+}
+
+.pageButton {
+  padding: 8px 12px;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.pageButton:hover {
+  background-color: #e0e0e0;
+}
+
+.pageButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.activePage {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+/* Make sure the .eventsList has this for pagination */
+.eventsList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+
+/* Animation for real-time updates */
+@keyframes highlight {
+  0% { background-color: rgba(255, 255, 0, 0.3); }
+  100% { background-color: transparent; }
+}
+
+.updated {
+  animation: highlight 2s ease-out;
+}
+
+.eventHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.deleteButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: red;
+}
+
+
+.modalContent {
+  max-height: 50vh; 
+  overflow-y: auto;
+}
+
+/* Add this to your CSS file */
+.scrollableContent {
+  max-height: 50vh; /* Adjust as needed */
+  overflow-y: auto;
+}
