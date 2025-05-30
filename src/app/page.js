@@ -47,7 +47,7 @@ const initialEvents = [
 export default function Home() {
     useEffect(() => {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('authToken', '872807109b798f94c288bf615ce5d2f7936e1dbf');
+      localStorage.setItem('authToken', '10e150d9cfa8ccae63f12256a7d36a525b370503');
     }
   }, []);
   const [searchQuery, setSearchQuery] = useState('');
@@ -59,7 +59,7 @@ export default function Home() {
   const [sortByCapacity, setSortByCapacity] = useState(false);
   const [updateError, setUpdateError] = useState('');
   const [updateSuccess, setUpdateSuccess] = useState('');
-  const [isNetworkDown, setIsNetworkDown] = useState(!navigator.onLine);
+  const [isNetworkDown, setIsNetworkDown] = useState(false);
   const [isServerDown, setIsServerDown] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false); // Track loading state
   const [hasMore, setHasMore] = useState(true); // Track if more events are available
@@ -123,11 +123,16 @@ export default function Home() {
 
   // Initialize pending operations from localStorage on the client side
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const storedOperations = JSON.parse(localStorage.getItem('pendingOperations')) || [];
-      setPendingOperations(storedOperations);
+  if (typeof window !== 'undefined') {
+    const storedToken = localStorage.getItem('authToken');
+    if (storedToken) {
+      setAuthToken(storedToken);
+    } else {
+      localStorage.setItem('authToken', '872807109b798f94c288bf615ce5d2f7936e1dbf');
+      setAuthToken('872807109b798f94c288bf615ce5d2f7936e1dbf');
     }
-  }, []);
+  }
+}, []);
 
 
   const addPendingOperation = (operation) => {
@@ -159,7 +164,7 @@ export default function Home() {
   useEffect(() => {
     const checkServerStatus = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/events/');
+        const response = await fetch('https://mpp-backend-t8mc.onrender.com/api/events/');
         if (!response.ok) throw new Error('Server down');
         setIsServerDown(false);
       } catch (error) {
@@ -174,12 +179,18 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setIsNetworkDown(!navigator.onLine);
+    }
+  }, []);
+
+  useEffect(() => {
     const syncPendingOperations = async () => {
       if (!isNetworkDown && !isServerDown && pendingOperations.length > 0) {
         for (const operation of pendingOperations) {
           try {
             if (operation.type === 'ADD') {
-              await fetch('http://127.0.0.1:8000/api/events/', {
+              await fetch('https://mpp-backend-t8mc.onrender.com/api/events/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json',
                   'Authorization': `Token ${localStorage.getItem('authToken')}`, // Include the token
@@ -187,7 +198,7 @@ export default function Home() {
                 body: JSON.stringify(operation.data),
               });
             } else if (operation.type === 'DELETE') {
-              await fetch(`http://127.0.0.1:8000/api/events/${operation.id}/`, {
+              await fetch(`https://mpp-backend-t8mc.onrender.com/api/events/${operation.id}/`, {
                 method: 'DELETE',
                 headers: {
                   'Authorization': `Token ${localStorage.getItem('authToken')}`, // Include the token
@@ -209,7 +220,7 @@ export default function Home() {
     syncPendingOperations();
   }, [isNetworkDown, isServerDown]);
 
-const [authToken, setAuthToken] = useState(localStorage.getItem('authToken') || '');
+const [authToken, setAuthToken] = useState('');
 
 
 
@@ -247,7 +258,7 @@ const fetchAllEvents = async () => {
 
   try {
     while (hasMorePages) {
-      const response = await fetch(`http://127.0.0.1:8000/api/events/?page=${page}`, {
+      const response = await fetch(`https://mpp-backend-t8mc.onrender.com/api/events/?page=${page}`, {
         method: 'GET',
         headers: {
           'Authorization': `Token ${authToken}`, // Use the token from state
@@ -678,7 +689,7 @@ const handleAddEvent = async () => {
   }
 
   try {
-    const response = await fetch('http://127.0.0.1:8000/api/events/', {
+    const response = await fetch('https://mpp-backend-t8mc.onrender.com/api/events/', {
       method: 'POST',
       headers: {
         'Authorization': `Token ${localStorage.getItem('authToken')}`, // Include the token
@@ -770,7 +781,7 @@ const handleEditEvent = (event) => {
     }
   
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/events/${eventToUpdate.id}/`, {
+      const response = await fetch(`https://mpp-backend-t8mc.onrender.com/api/events/${eventToUpdate.id}/`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Token ${localStorage.getItem('authToken')}`, // Include the token
@@ -840,7 +851,7 @@ const handleEditEvent = (event) => {
     }
   
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/events/${eventToDelete.id}/`, {
+      const response = await fetch(`https://mpp-backend-t8mc.onrender.com/api/events/${eventToDelete.id}/`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Token ${localStorage.getItem('authToken')}`, // Include the token
@@ -909,7 +920,7 @@ const handleEditEvent = (event) => {
     }
   
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/events/${eventId}/`, {
+      const response = await fetch(`https://mpp-backend-t8mc.onrender.com/api/events/${eventId}/`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Token ${localStorage.getItem('authToken')}`, // Include the token
