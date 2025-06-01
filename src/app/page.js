@@ -69,6 +69,9 @@ export default function Home() {
   const [showInfiniteScrollModal, setShowInfiniteScrollModal] = useState(false);
   const [inputToken, setInputToken] = useState('');
   const [loginError, setLoginError] = useState('');
+  const [registerForm, setRegisterForm] = useState({ email: '', name: '', password: '' });
+const [registerError, setRegisterError] = useState('');
+const [registerToken, setRegisterToken] = useState('');
   const [newEvent, setNewEvent] = useState({
     name: '',
     description: '',
@@ -164,7 +167,7 @@ export default function Home() {
   useEffect(() => {
     const checkServerStatus = async () => {
       try {
-        const response = await fetch('https://mpp-backend-t8mc.onrender.com/api/events/');
+        const response = await fetch('http://localhost:8000/api/events/');
         if (!response.ok) throw new Error('Server down');
         setIsServerDown(false);
       } catch (error) {
@@ -190,7 +193,7 @@ export default function Home() {
         for (const operation of pendingOperations) {
           try {
             if (operation.type === 'ADD') {
-              await fetch('https://mpp-backend-t8mc.onrender.com/api/events/', {
+              await fetch('http://localhost:8000/api/events/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json',
                   'Authorization': `Token ${localStorage.getItem('authToken')}`, // Include the token
@@ -198,7 +201,7 @@ export default function Home() {
                 body: JSON.stringify(operation.data),
               });
             } else if (operation.type === 'DELETE') {
-              await fetch(`https://mpp-backend-t8mc.onrender.com/api/events/${operation.id}/`, {
+              await fetch(`http://localhost:8000/api/events/${operation.id}/`, {
                 method: 'DELETE',
                 headers: {
                   'Authorization': `Token ${localStorage.getItem('authToken')}`, // Include the token
@@ -258,7 +261,7 @@ const fetchAllEvents = async () => {
 
   try {
     while (hasMorePages) {
-      const response = await fetch(`https://mpp-backend-t8mc.onrender.com/api/events/?page=${page}`, {
+      const response = await fetch(`http://localhost:8000/api/events/?page=${page}`, {
         method: 'GET',
         headers: {
           'Authorization': `Token ${authToken}`, // Use the token from state
@@ -368,7 +371,35 @@ const fetchAllEvents = async () => {
   // WebSocket connection to receive real-time updates
 
 
-  
+  // Registration handler
+const handleRegisterInputChange = (e) => {
+  const { name, value } = e.target;
+  setRegisterForm({ ...registerForm, [name]: value });
+  setRegisterError('');
+};
+
+const handleRegister = async () => {
+  if (!registerForm.email || !registerForm.name || !registerForm.password) {
+    setRegisterError('All fields are required');
+    return;
+  }
+  try {
+    const response = await fetch('http://localhost:8000/api/events/register/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(registerForm),
+    });
+    const data = await response.json();
+    if (response.ok) {
+      setRegisterToken(data.token);
+      setRegisterError('');
+    } else {
+      setRegisterError(data.error || 'Registration failed');
+    }
+  } catch (err) {
+    setRegisterError('Network error');
+  }
+};
 
   
   // Pagination state
@@ -689,7 +720,7 @@ const handleAddEvent = async () => {
   }
 
   try {
-    const response = await fetch('https://mpp-backend-t8mc.onrender.com/api/events/', {
+    const response = await fetch('http://localhost:8000/api/events/', {
       method: 'POST',
       headers: {
         'Authorization': `Token ${localStorage.getItem('authToken')}`, // Include the token
@@ -781,7 +812,7 @@ const handleEditEvent = (event) => {
     }
   
     try {
-      const response = await fetch(`https://mpp-backend-t8mc.onrender.com/api/events/${eventToUpdate.id}/`, {
+      const response = await fetch(`http://localhost:8000/api/events/${eventToUpdate.id}/`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Token ${localStorage.getItem('authToken')}`, // Include the token
@@ -851,7 +882,7 @@ const handleEditEvent = (event) => {
     }
   
     try {
-      const response = await fetch(`https://mpp-backend-t8mc.onrender.com/api/events/${eventToDelete.id}/`, {
+      const response = await fetch(`http://localhost:8000/api/events/${eventToDelete.id}/`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Token ${localStorage.getItem('authToken')}`, // Include the token
@@ -920,7 +951,7 @@ const handleEditEvent = (event) => {
     }
   
     try {
-      const response = await fetch(`https://mpp-backend-t8mc.onrender.com/api/events/${eventId}/`, {
+      const response = await fetch(`http://localhost:8000/api/events/${eventId}/`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Token ${localStorage.getItem('authToken')}`, // Include the token
@@ -940,6 +971,46 @@ const handleEditEvent = (event) => {
 
   return (
     <main className={styles.main}>
+      <div className={styles.loginContainer}>
+  <h2>Register New User</h2>
+  <div className={styles.formGroup}>
+    <label>Email:</label>
+    <input
+      type="email"
+      name="email"
+      value={registerForm.email}
+      onChange={handleRegisterInputChange}
+      className={styles.formInput}
+    />
+  </div>
+  <div className={styles.formGroup}>
+    <label>Name:</label>
+    <input
+      type="text"
+      name="name"
+      value={registerForm.name}
+      onChange={handleRegisterInputChange}
+      className={styles.formInput}
+    />
+  </div>
+  <div className={styles.formGroup}>
+    <label>Password:</label>
+    <input
+      type="password"
+      name="password"
+      value={registerForm.password}
+      onChange={handleRegisterInputChange}
+      className={styles.formInput}
+    />
+  </div>
+  {registerError && <div className={styles.errorMessage}>{registerError}</div>}
+  <button onClick={handleRegister} className={styles.loginButton}>Register</button>
+  {registerToken && (
+    <div className={styles.successMessage}>
+      Registration successful! Your token: <code>{registerToken}</code>
+    </div>
+  )}
+</div>
       <div className={styles.loginContainer}>
         <h2>Enter Authorization Token</h2>
         <div className={styles.formGroup}>
