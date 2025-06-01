@@ -167,7 +167,7 @@ const [registerToken, setRegisterToken] = useState('');
   useEffect(() => {
     const checkServerStatus = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/events/');
+        const response = await fetch('https://mpp-backend-t8mc.onrender.com/api/events/');
         if (!response.ok) throw new Error('Server down');
         setIsServerDown(false);
       } catch (error) {
@@ -193,7 +193,7 @@ const [registerToken, setRegisterToken] = useState('');
         for (const operation of pendingOperations) {
           try {
             if (operation.type === 'ADD') {
-              await fetch('http://localhost:8000/api/events/', {
+              await fetch('https://mpp-backend-t8mc.onrender.com/api/events/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json',
                   'Authorization': `Token ${localStorage.getItem('authToken')}`, // Include the token
@@ -201,7 +201,7 @@ const [registerToken, setRegisterToken] = useState('');
                 body: JSON.stringify(operation.data),
               });
             } else if (operation.type === 'DELETE') {
-              await fetch(`http://localhost:8000/api/events/${operation.id}/`, {
+              await fetch(`https://mpp-backend-t8mc.onrender.com/api/events/${operation.id}/`, {
                 method: 'DELETE',
                 headers: {
                   'Authorization': `Token ${localStorage.getItem('authToken')}`, // Include the token
@@ -261,7 +261,7 @@ const fetchAllEvents = async () => {
 
   try {
     while (hasMorePages) {
-      const response = await fetch(`http://localhost:8000/api/events/?page=${page}`, {
+      const response = await fetch(`https://mpp-backend-t8mc.onrender.com/api/events/?page=${page}`, {
         method: 'GET',
         headers: {
           'Authorization': `Token ${authToken}`, // Use the token from state
@@ -384,7 +384,7 @@ const handleRegister = async () => {
     return;
   }
   try {
-    const response = await fetch('http://localhost:8000/api/events/register/', {
+    const response = await fetch('https://mpp-backend-t8mc.onrender.com/api/events/register/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(registerForm),
@@ -720,7 +720,7 @@ const handleAddEvent = async () => {
   }
 
   try {
-    const response = await fetch('http://localhost:8000/api/events/', {
+    const response = await fetch('https://mpp-backend-t8mc.onrender.com/api/events/', {
       method: 'POST',
       headers: {
         'Authorization': `Token ${localStorage.getItem('authToken')}`, // Include the token
@@ -812,7 +812,7 @@ const handleEditEvent = (event) => {
     }
   
     try {
-      const response = await fetch(`http://localhost:8000/api/events/${eventToUpdate.id}/`, {
+      const response = await fetch(`https://mpp-backend-t8mc.onrender.com/api/events/${eventToUpdate.id}/`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Token ${localStorage.getItem('authToken')}`, // Include the token
@@ -882,7 +882,7 @@ const handleEditEvent = (event) => {
     }
   
     try {
-      const response = await fetch(`http://localhost:8000/api/events/${eventToDelete.id}/`, {
+      const response = await fetch(`https://mpp-backend-t8mc.onrender.com/api/events/${eventToDelete.id}/`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Token ${localStorage.getItem('authToken')}`, // Include the token
@@ -951,7 +951,7 @@ const handleEditEvent = (event) => {
     }
   
     try {
-      const response = await fetch(`http://localhost:8000/api/events/${eventId}/`, {
+      const response = await fetch(`https://mpp-backend-t8mc.onrender.com/api/events/${eventId}/`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Token ${localStorage.getItem('authToken')}`, // Include the token
